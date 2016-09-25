@@ -41,28 +41,29 @@ class TemplateHandler(webapp2.RequestHandler):
 class MainHandler(TemplateHandler):
     def get(self):
         #self.response.headers['Content-Type'] = 'text/plain'
-        textarea = self.request.get_all("text")
+        textarea = self.request.get("text")
         self.render("index.html",textarea=textarea)
         #self.response.out.write(form)
     def post(self):
         text = self.request.get("text")
-        newText = ""
+        textarea = ""
         for letter in text:
             numericValue = ord(letter)
             if numericValue >=97 and numericValue <= 122:
                 if numericValue + 13 > 122:
-                    newText += chr(((numericValue + 13) - 122) + 96)
+                    textarea += chr(((numericValue + 13) - 122) + 96)
                 else:
-                    newText += chr(numericValue + 13)
+                    textarea += chr(numericValue + 13)
             elif numericValue >=65 and numericValue <= 90:
                 if numericValue + 13 > 90:
-                    newText += chr(((numericValue + 13) - 90) + 64)
+                    textarea += chr(((numericValue + 13) - 90) + 64)
                 else:
-                    newText += chr(numericValue + 13)
+                    textarea += chr(numericValue + 13)
             else:
-                newText += letter
+                textarea += letter
         #self.response.out.write(newText)
-        self.redirect("/rot13")
+        self.render("index.html",textarea=textarea)
+        #self.redirect("/rot13")
 
 
 
